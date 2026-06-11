@@ -42,5 +42,11 @@
             "name": "Brent Scheffler",
             "email": "brent@brentscheffler.com"
         }
-    ]
+    ],
+    "config": {
+        "platform": {
+            "php": "8.2.27"
+        },
+        "sort-packages": true
+    }
 }
