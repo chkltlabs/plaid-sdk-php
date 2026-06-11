@@ -1,15 +1,15 @@
 <?php
 
-use TomorrowIdeas\Plaid\Entities\AccountFilters;
-use TomorrowIdeas\Plaid\Entities\User;
-use TomorrowIdeas\Plaid\Tests\TestCase;
+use ChkltLabs\Plaid\Entities\AccountFilters;
+use ChkltLabs\Plaid\Entities\User;
+use ChkltLabs\Plaid\Tests\TestCase;
 
 /**
- * @covers TomorrowIdeas\Plaid\Plaid
- * @covers TomorrowIdeas\Plaid\Resources\AbstractResource
- * @covers TomorrowIdeas\Plaid\Resources\tokens
- * @covers TomorrowIdeas\Plaid\Entities\AccountFilters
- * @covers TomorrowIdeas\Plaid\Entities\User
+ * @covers ChkltLabs\Plaid\Plaid
+ * @covers ChkltLabs\Plaid\Resources\AbstractResource
+ * @covers ChkltLabs\Plaid\Resources\tokens
+ * @covers ChkltLabs\Plaid\Entities\AccountFilters
+ * @covers ChkltLabs\Plaid\Entities\User
  */
 class TokensTest extends TestCase
 {
@@ -44,7 +44,7 @@ class TokensTest extends TestCase
 			["US"],
 			new User("usr_12345"),
 			[],
-			"http://webhook.url"
+			webhook: "http://webhook.url"
 		);
 
 		$this->assertEquals("http://webhook.url", $response->params->webhook);
@@ -58,8 +58,7 @@ class TokensTest extends TestCase
 			["US"],
 			new User("usr_12345"),
 			[],
-			null,
-			"link customization name"
+			link_customization_name: "link customization name"
 		);
 
 		$this->assertEquals("link customization name", $response->params->link_customization_name);
@@ -76,9 +75,7 @@ class TokensTest extends TestCase
 			["US"],
 			new User("usr_12345"),
 			[],
-			null,
-			null,
-			$account_filters
+			account_filters: $account_filters
 		);
 
 		$this->assertEquals(
@@ -103,10 +100,7 @@ class TokensTest extends TestCase
 			["US"],
 			new User("usr_12345"),
 			[],
-			null,
-			null,
-			null,
-			"access_token"
+			access_token: "access_token"
 		);
 
 		$this->assertEquals("access_token", $response->params->access_token);
@@ -120,11 +114,7 @@ class TokensTest extends TestCase
 			["US"],
 			new User("usr_12345"),
 			[],
-			null,
-			null,
-			null,
-			null,
-			"http://redirect.uri"
+			redirect_uri: "http://redirect.uri"
 		);
 
 		$this->assertEquals(
@@ -141,12 +131,7 @@ class TokensTest extends TestCase
 			["US"],
 			new User("usr_12345"),
 			[],
-			null,
-			null,
-			null,
-			null,
-			null,
-			"android_package_name"
+			android_package_name: "android_package_name"
 		);
 
 		$this->assertEquals("android_package_name", $response->params->android_package_name);
@@ -160,13 +145,7 @@ class TokensTest extends TestCase
 			["US"],
 			new User("usr_12345"),
 			[],
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			"pmt_12345"
+			payment_initiation: ["payment_id" => "pmt_12345"]
 		);
 
 		$this->assertEquals(
@@ -183,14 +162,7 @@ class TokensTest extends TestCase
 			["US"],
 			new User("usr_12345"),
 			[],
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			"institution_id"
+			institution_id: "institution_id"
 		);
 
 		$this->assertEquals("institution_id", $response->params->institution_id);
@@ -205,15 +177,7 @@ class TokensTest extends TestCase
 			["US"],
 			new User("usr_12345"),
 			[],
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			[
+			auth: [
 				"auth_type_select_enabled" => true,
 				"automated_microdeposits_enabled" => true,
 			]

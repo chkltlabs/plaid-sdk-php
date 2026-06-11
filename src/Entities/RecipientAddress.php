@@ -1,6 +1,6 @@
 <?php
 
-namespace TomorrowIdeas\Plaid\Entities;
+namespace ChkltLabs\Plaid\Entities;
 
 class RecipientAddress
 {

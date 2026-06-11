@@ -1,10 +1,10 @@
 <?php
 
-namespace TomorrowIdeas\Plaid\Resources;
+namespace ChkltLabs\Plaid\Resources;
 
-use TomorrowIdeas\Plaid\Entities\User;
-use TomorrowIdeas\Plaid\PlaidRequestException;
-use TomorrowIdeas\Plaid\Entities\AccountFilters;
+use ChkltLabs\Plaid\Entities\User;
+use ChkltLabs\Plaid\PlaidRequestException;
+use ChkltLabs\Plaid\Entities\AccountFilters;
 
 class Tokens extends AbstractResource
 {

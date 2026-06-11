@@ -1,9 +1,8 @@
 # Plaid SDK
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/tomorrow-ideas/plaid-sdk-php.svg?style=flat-square)](https://packagist.org/packages/tomorrow-ideas/plaid-sdk-php)
-[![Build Status](https://img.shields.io/travis/TomorrowIdeas/plaid-sdk-php.svg?style=flat-square)](https://travis-ci.com/TomorrowIdeas/plaid-sdk-php)
-[![Code Coverage](https://img.shields.io/coveralls/github/TomorrowIdeas/plaid-sdk-php.svg?style=flat-square)](https://coveralls.io/github/TomorrowIdeas/plaid-sdk-php)
-[![License](https://img.shields.io/github/license/TomorrowIdeas/plaid-sdk-php.svg?style=flat-square)](https://packagist.org/packages/tomorrow-ideas/plaid-sdk-php)
+[![Latest Stable Version](https://img.shields.io/packagist/v/chkltlabs/plaid-sdk-php.svg?style=flat-square)](https://packagist.org/packages/chkltlabs/plaid-sdk-php)
+[![CI](https://github.com/chkltlabs/plaid-sdk-php/actions/workflows/ci.yml/badge.svg)](https://github.com/chkltlabs/plaid-sdk-php/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/chkltlabs/plaid-sdk-php.svg?style=flat-square)](https://github.com/chkltlabs/plaid-sdk-php/blob/master/LICENSE)
 
 Plaid PHP SDK supporting:
 * Link tokens
@@ -29,27 +28,29 @@ For full description of request and response payloads and properties, please see
 
 ## Requirements
 
-* PHP 7.3+ | PHP 8.0+
+* PHP 8.2+
 * ext-curl
 * ext-json
 
 ## Installation
 
 ```bash
-composer require tomorrow-ideas/plaid-sdk-php
+composer require chkltlabs/plaid-sdk-php
 ```
+
+> **Migrating from 1.x?** The original [`tomorrow-ideas/plaid-sdk-php`](https://packagist.org/packages/tomorrow-ideas/plaid-sdk-php) package is abandoned. See [UPGRADE.md](UPGRADE.md) for the 2.0 migration guide.
 
 ## Configuration
 
 Instantiate the Plaid client class with your credentials.
 
 ```php
-$client = new \TomorrowIdeas\Plaid\Plaid("your-client-id", "your-secret", "environment");
+$client = new \ChkltLabs\Plaid\Plaid("your-client-id", "your-secret", "environment");
 ```
 
 ### Environments
 
-The Plaid client by default uses the **production** Plaid API hostname for all API calls. You can change the environment by using the `setEnvironment` method.
+The Plaid client by default uses the **production** Plaid API hostname for all API calls. Pass the environment as the third constructor argument.
 
 Possible environments:
 
@@ -68,9 +69,24 @@ $options = [
 ];
 ```
 
+### Custom PSR-17 factories
+
+By default, the SDK uses Capsule PSR-17 factories to build outbound requests. You may substitute your own factories—for example, Guzzle's `HttpFactory` in a Laravel application:
+
+```php
+use ChkltLabs\Plaid\Plaid;
+use GuzzleHttp\Psr7\HttpFactory;
+
+$plaid = new Plaid($clientId, $secret, "sandbox");
+
+$httpFactory = new HttpFactory;
+$plaid->setRequestFactory($httpFactory);
+$plaid->setStreamFactory($httpFactory);
+```
+
 ## Example
 ```php
-use TomorrowIdeas\Plaid\Plaid;
+use ChkltLabs\Plaid\Plaid;
 
 require __DIR__ . "/vendor/autoload.php";
 
@@ -396,7 +412,7 @@ $response = $plaid->sandbox->fireWebhook($access_token);
 
 ### User
 
-The `TomorrowIdeas\Plaid\Entities\User` entity is used to represent your end user when creating a new link token.
+The `ChkltLabs\Plaid\Entities\User` entity is used to represent your end user when creating a new link token.
 
 Example:
 
@@ -414,23 +430,23 @@ $token_user = new User(
 
 ### RecipientAddress
 
-The `TomorrowIdeas\Plaid\Entities\RecipientAddress` entity is used to represent an address object for the recipient of a payment request.
+The `ChkltLabs\Plaid\Entities\RecipientAddress` entity is used to represent an address object for the recipient of a payment request.
 
 Example:
 
 ```php
-$address = new TomorrowIdeas\Plaid\Entities\RecipientAddress("123 Elm St.", "Apt 1", "Anytown", "ABC 123", "GB");
+$address = new ChkltLabs\Plaid\Entities\RecipientAddress("123 Elm St.", "Apt 1", "Anytown", "ABC 123", "GB");
 ```
 
 ### PaymentSchedule
 
 Example:
 
-The `TomorrowIdeas\Plaid\Entities\PaymnentSchedule` entity is used when creating a new payment that will be a recurring charge.
+The `ChkltLabs\Plaid\Entities\PaymnentSchedule` entity is used when creating a new payment that will be a recurring charge.
 See `createPayment` method for more information.
 
 ```php
-$payment_schedule = new TomorrowIdeas\Plaid\Entities\PaymnentSchedule(
+$payment_schedule = new ChkltLabs\Plaid\Entities\PaymnentSchedule(
     PaymentSchedule::INTERVAL_MONTHLY,
     15,
     new DateTime("2020-10-01")

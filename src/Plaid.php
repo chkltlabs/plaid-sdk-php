@@ -1,29 +1,33 @@
 <?php
 
-namespace TomorrowIdeas\Plaid;
+namespace ChkltLabs\Plaid;
 
+use Nimbly\Capsule\Factory\RequestFactory;
+use Nimbly\Capsule\Factory\StreamFactory;
+use Nimbly\Shuttle\Shuttle;
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use ReflectionClass;
-use Shuttle\Shuttle;
-use TomorrowIdeas\Plaid\Resources\AbstractResource;
+use ChkltLabs\Plaid\Resources\AbstractResource;
 use UnexpectedValueException;
 
 /**
- * @property \TomorrowIdeas\Plaid\Resources\Accounts $accounts
- * @property \TomorrowIdeas\Plaid\Resources\Auth $auth
- * @property \TomorrowIdeas\Plaid\Resources\BankTransfers $bank_transfers
- * @property \TomorrowIdeas\Plaid\Resources\Categories $categories
- * @property \TomorrowIdeas\Plaid\Resources\Institutions $institutions
- * @property \TomorrowIdeas\Plaid\Resources\Investments	$investments
- * @property \TomorrowIdeas\Plaid\Resources\Items $items
- * @property \TomorrowIdeas\Plaid\Resources\Liabilities $liabilities
- * @property \TomorrowIdeas\Plaid\Resources\Tokens $tokens
- * @property \TomorrowIdeas\Plaid\Resources\Payments $payments
- * @property \TomorrowIdeas\Plaid\Resources\Processors $processors
- * @property \TomorrowIdeas\Plaid\Resources\Reports $reports
- * @property \TomorrowIdeas\Plaid\Resources\Sandbox $sandbox
- * @property \TomorrowIdeas\Plaid\Resources\Transactions $transactions
- * @property \TomorrowIdeas\Plaid\Resources\Webhooks $webhooks
+ * @property \ChkltLabs\Plaid\Resources\Accounts $accounts
+ * @property \ChkltLabs\Plaid\Resources\Auth $auth
+ * @property \ChkltLabs\Plaid\Resources\BankTransfers $bank_transfers
+ * @property \ChkltLabs\Plaid\Resources\Categories $categories
+ * @property \ChkltLabs\Plaid\Resources\Institutions $institutions
+ * @property \ChkltLabs\Plaid\Resources\Investments	$investments
+ * @property \ChkltLabs\Plaid\Resources\Items $items
+ * @property \ChkltLabs\Plaid\Resources\Liabilities $liabilities
+ * @property \ChkltLabs\Plaid\Resources\Tokens $tokens
+ * @property \ChkltLabs\Plaid\Resources\Payments $payments
+ * @property \ChkltLabs\Plaid\Resources\Processors $processors
+ * @property \ChkltLabs\Plaid\Resources\Reports $reports
+ * @property \ChkltLabs\Plaid\Resources\Sandbox $sandbox
+ * @property \ChkltLabs\Plaid\Resources\Transactions $transactions
+ * @property \ChkltLabs\Plaid\Resources\Webhooks $webhooks
  */
 class Plaid
 {
@@ -69,6 +73,20 @@ class Plaid
 	protected $httpClient;
 
 	/**
+	 * RequestFactoryInterface instance.
+	 *
+	 * @var RequestFactoryInterface|null
+	 */
+	protected $requestFactory;
+
+	/**
+	 * StreamFactoryInterface instance.
+	 *
+	 * @var StreamFactoryInterface|null
+	 */
+	protected $streamFactory;
+
+	/**
 	 * Resource instance cache.
 	 *
 	 * @var array<AbstractResource>
@@ -108,7 +126,7 @@ class Plaid
 
 			$resource = \str_replace([" "], "", \ucwords(\str_replace(["_"], " ", $resource)));
 
-			$resource_class = "\\TomorrowIdeas\\Plaid\\Resources\\" . $resource;
+			$resource_class = "\\ChkltLabs\\Plaid\\Resources\\" . $resource;
 
 			if( !\class_exists($resource_class) ){
 				throw new UnexpectedValueException("Unknown Plaid resource: {$resource}");
@@ -121,6 +139,8 @@ class Plaid
 			 */
 			$resource_instance = $reflectionClass->newInstanceArgs([
 				$this->getHttpClient(),
+				$this->getRequestFactory(),
+				$this->getStreamFactory(),
 				$this->client_id,
 				$this->client_secret,
 				$this->plaidEnvironments[$this->environment]
@@ -155,5 +175,55 @@ class Plaid
 		}
 
 		return $this->httpClient;
+	}
+
+	/**
+	 * Set a specific RequestFactoryInterface instance for building HTTP requests.
+	 *
+	 * @param RequestFactoryInterface $requestFactory
+	 * @return void
+	 */
+	public function setRequestFactory(RequestFactoryInterface $requestFactory): void
+	{
+		$this->requestFactory = $requestFactory;
+	}
+
+	/**
+	 * Get the RequestFactoryInterface instance used to build HTTP requests.
+	 *
+	 * @return RequestFactoryInterface
+	 */
+	public function getRequestFactory(): RequestFactoryInterface
+	{
+		if( empty($this->requestFactory) ){
+			$this->requestFactory = new RequestFactory;
+		}
+
+		return $this->requestFactory;
+	}
+
+	/**
+	 * Set a specific StreamFactoryInterface instance for building HTTP request bodies.
+	 *
+	 * @param StreamFactoryInterface $streamFactory
+	 * @return void
+	 */
+	public function setStreamFactory(StreamFactoryInterface $streamFactory): void
+	{
+		$this->streamFactory = $streamFactory;
+	}
+
+	/**
+	 * Get the StreamFactoryInterface instance used to build HTTP request bodies.
+	 *
+	 * @return StreamFactoryInterface
+	 */
+	public function getStreamFactory(): StreamFactoryInterface
+	{
+		if( empty($this->streamFactory) ){
+			$this->streamFactory = new StreamFactory;
+		}
+
+		return $this->streamFactory;
 	}
 }

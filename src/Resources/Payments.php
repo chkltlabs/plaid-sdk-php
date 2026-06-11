@@ -1,11 +1,11 @@
 <?php
 
-namespace TomorrowIdeas\Plaid\Resources;
+namespace ChkltLabs\Plaid\Resources;
 
-use TomorrowIdeas\Plaid\Entities\BacsAccount;
-use TomorrowIdeas\Plaid\Entities\PaymentSchedule;
-use TomorrowIdeas\Plaid\Entities\RecipientAddress;
-use TomorrowIdeas\Plaid\PlaidRequestException;
+use ChkltLabs\Plaid\Entities\BacsAccount;
+use ChkltLabs\Plaid\Entities\PaymentSchedule;
+use ChkltLabs\Plaid\Entities\RecipientAddress;
+use ChkltLabs\Plaid\PlaidRequestException;
 
 class Payments extends AbstractResource
 {

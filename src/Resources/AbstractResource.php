@@ -1,13 +1,14 @@
 <?php
 
-namespace TomorrowIdeas\Plaid\Resources;
+namespace ChkltLabs\Plaid\Resources;
 
-use Capsule\Request;
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use TomorrowIdeas\Plaid\Plaid;
-use TomorrowIdeas\Plaid\PlaidRequestException;
+use Psr\Http\Message\StreamFactoryInterface;
+use ChkltLabs\Plaid\Plaid;
+use ChkltLabs\Plaid\PlaidRequestException;
 use UnexpectedValueException;
 
 abstract class AbstractResource
@@ -18,6 +19,20 @@ abstract class AbstractResource
 	 * @var ClientInterface
 	 */
 	protected $httpClient;
+
+	/**
+	 * RequestFactoryInterface instance.
+	 *
+	 * @var RequestFactoryInterface
+	 */
+	private $requestFactory;
+
+	/**
+	 * StreamFactoryInterface instance.
+	 *
+	 * @var StreamFactoryInterface
+	 */
+	private $streamFactory;
 
 	/**
 	 * Plaid client Id.
@@ -42,17 +57,23 @@ abstract class AbstractResource
 
 	/**
 	 * @param ClientInterface $httpClient
+	 * @param RequestFactoryInterface $requestFactory
+	 * @param StreamFactoryInterface $streamFactory
 	 * @param string $client_id
 	 * @param string $client_secret
 	 * @param string $hostname
 	 */
 	public function __construct(
 		ClientInterface $httpClient,
+		RequestFactoryInterface $requestFactory,
+		StreamFactoryInterface $streamFactory,
 		string $client_id,
 		string $client_secret,
 		string $hostname)
 	{
 		$this->httpClient = $httpClient;
+		$this->requestFactory = $requestFactory;
+		$this->streamFactory = $streamFactory;
 		$this->client_id = $client_id;
 		$this->client_secret = $client_secret;
 		$this->hostname = $hostname;
@@ -127,14 +148,16 @@ abstract class AbstractResource
 	 */
 	protected function buildRequest(string $method, string $path, array $params = []): RequestInterface
 	{
-		return new Request(
-			$method,
-			$this->hostname . \trim($path, "/"),
-			\json_encode((object) $params),
-			[
-				"Plaid-Version" => Plaid::API_VERSION,
-				"Content-Type" => "application/json"
-			]
-		);
+		$body = \json_encode((object) $params);
+
+		if( $body === false ){
+			throw new UnexpectedValueException("Failed to encode request parameters as JSON");
+		}
+
+		return $this->requestFactory
+			->createRequest($method, $this->hostname . \trim($path, "/"))
+			->withHeader("Plaid-Version", Plaid::API_VERSION)
+			->withHeader("Content-Type", "application/json")
+			->withBody($this->streamFactory->createStream($body));
 	}
 }

@@ -1,18 +1,18 @@
 <?php
 
-namespace TomorrowIdeas\Plaid\Tests;
+namespace ChkltLabs\Plaid\Tests;
 
-use Capsule\Response;
-use Shuttle\Handler\MockHandler;
-use Shuttle\Shuttle;
-use TomorrowIdeas\Plaid\Plaid;
-use TomorrowIdeas\Plaid\PlaidRequestException;
+use Nimbly\Capsule\Response;
+use Nimbly\Shuttle\Handler\MockHandler;
+use Nimbly\Shuttle\Shuttle;
+use ChkltLabs\Plaid\Plaid;
+use ChkltLabs\Plaid\PlaidRequestException;
 
 /**
- * @covers TomorrowIdeas\Plaid\Plaid
- * @covers TomorrowIdeas\Plaid\Resources\AbstractResource
- * @covers TomorrowIdeas\Plaid\Resources\Reports
- * @covers TomorrowIdeas\Plaid\PlaidRequestException
+ * @covers ChkltLabs\Plaid\Plaid
+ * @covers ChkltLabs\Plaid\Resources\AbstractResource
+ * @covers ChkltLabs\Plaid\Resources\Reports
+ * @covers ChkltLabs\Plaid\PlaidRequestException
  */
 class ReportsTest extends TestCase
 {
@@ -90,11 +90,11 @@ class ReportsTest extends TestCase
 
 	public function test_get_asset_report_pdf_throws_on_fail(): void
 	{
-		$httpClient = new Shuttle([
-			'handler' => new MockHandler([
+		$httpClient = new Shuttle(
+			handler: new MockHandler([
 				new Response(400, "Bad Request")
 			])
-		]);
+		);
 
 		$plaid = new Plaid("client_id", "secret");
 		$plaid->setHttpClient($httpClient);

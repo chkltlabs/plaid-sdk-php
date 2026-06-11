@@ -1,13 +1,13 @@
 <?php
 
-namespace TomorrowIdeas\Plaid\Tests;
+namespace ChkltLabs\Plaid\Tests;
 
-use Capsule\Response;
-use TomorrowIdeas\Plaid\PlaidRequestException;
+use Nimbly\Capsule\Response;
+use ChkltLabs\Plaid\PlaidRequestException;
 
 /**
- * @covers TomorrowIdeas\Plaid\PlaidRequestException
- * @uses TomorrowIdeas\Plaid\PlaidException
+ * @covers ChkltLabs\Plaid\PlaidRequestException
+ * @uses ChkltLabs\Plaid\PlaidException
  */
 class PlaidRequestExceptionTest extends TestCase
 {
