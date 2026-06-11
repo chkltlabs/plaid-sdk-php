@@ -1,11 +1,11 @@
 <?php
 
-namespace TomorrowIdeas\Plaid\Tests;
+namespace ChkltLabs\Plaid\Tests;
 
 /**
- * @covers TomorrowIdeas\Plaid\Plaid
- * @covers TomorrowIdeas\Plaid\Resources\AbstractResource
- * @covers TomorrowIdeas\Plaid\Resources\Liabilities
+ * @covers ChkltLabs\Plaid\Plaid
+ * @covers ChkltLabs\Plaid\Resources\AbstractResource
+ * @covers ChkltLabs\Plaid\Resources\Liabilities
  */
 class LiabilitiesTest extends TestCase
 {

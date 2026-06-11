@@ -1,11 +1,11 @@
 <?php
 
-namespace TomorrowIdeas\Plaid\Tests;
+namespace ChkltLabs\Plaid\Tests;
 
-use TomorrowIdeas\Plaid\Entities\RecipientAddress;
+use ChkltLabs\Plaid\Entities\RecipientAddress;
 
 /**
- * @covers TomorrowIdeas\Plaid\Entities\RecipientAddress
+ * @covers ChkltLabs\Plaid\Entities\RecipientAddress
  */
 class RecipientAddressEntityTest extends TestCase
 {

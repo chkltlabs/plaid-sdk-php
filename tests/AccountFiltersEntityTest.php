@@ -1,10 +1,10 @@
 <?php
 
-use TomorrowIdeas\Plaid\Entities\AccountFilters;
-use TomorrowIdeas\Plaid\Tests\TestCase;
+use ChkltLabs\Plaid\Entities\AccountFilters;
+use ChkltLabs\Plaid\Tests\TestCase;
 
 /**
- * @covers TomorrowIdeas\Plaid\Entities\AccountFilters
+ * @covers ChkltLabs\Plaid\Entities\AccountFilters
  */
 class AccountFiltersEntityTest extends TestCase
 {

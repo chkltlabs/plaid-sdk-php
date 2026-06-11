@@ -1,5 +1,5 @@
 {
-    "name": "tomorrow-ideas/plaid-sdk-php",
+    "name": "chkltlabs/plaid-sdk-php",
     "description": "PHP implementation of Plaid's API as an SDK.",
     "keywords": [
         "plaid",
@@ -7,6 +7,11 @@
         "php"
     ],
     "type": "library",
+    "homepage": "https://github.com/chkltlabs/plaid-sdk-php",
+    "support": {
+        "issues": "https://github.com/chkltlabs/plaid-sdk-php/issues",
+        "source": "https://github.com/chkltlabs/plaid-sdk-php"
+    },
     "require": {
         "php": ">=7.3|>=8.0",
         "ext-json": "*",
@@ -15,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "TomorrowIdeas\\Plaid\\" : "src"
+            "ChkltLabs\\Plaid\\" : "src"
         }
     },
     "require-dev": {
@@ -26,7 +31,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "TomorrowIdeas\\Plaid\\Tests\\": "tests"
+            "ChkltLabs\\Plaid\\Tests\\": "tests"
         }
     },
     "license": "MIT",

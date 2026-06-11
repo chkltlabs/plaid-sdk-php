@@ -1,19 +1,19 @@
 <?php
 
-namespace TomorrowIdeas\Plaid\Tests;
+namespace ChkltLabs\Plaid\Tests;
 
 use DateTime;
-use TomorrowIdeas\Plaid\Entities\BacsAccount;
-use TomorrowIdeas\Plaid\Entities\PaymentSchedule;
-use TomorrowIdeas\Plaid\Entities\RecipientAddress;
+use ChkltLabs\Plaid\Entities\BacsAccount;
+use ChkltLabs\Plaid\Entities\PaymentSchedule;
+use ChkltLabs\Plaid\Entities\RecipientAddress;
 
 /**
- * @covers TomorrowIdeas\Plaid\Plaid
- * @covers TomorrowIdeas\Plaid\Resources\AbstractResource
- * @covers TomorrowIdeas\Plaid\Resources\Payments
- * @covers TomorrowIdeas\Plaid\Entities\RecipientAddress
- * @covers TomorrowIdeas\Plaid\Entities\PaymentSchedule
- * @covers TomorrowIdeas\Plaid\Entities\BacsAccount
+ * @covers ChkltLabs\Plaid\Plaid
+ * @covers ChkltLabs\Plaid\Resources\AbstractResource
+ * @covers ChkltLabs\Plaid\Resources\Payments
+ * @covers ChkltLabs\Plaid\Entities\RecipientAddress
+ * @covers ChkltLabs\Plaid\Entities\PaymentSchedule
+ * @covers ChkltLabs\Plaid\Entities\BacsAccount
  */
 class PaymentsTest extends TestCase
 {
