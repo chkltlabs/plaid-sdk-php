@@ -2,7 +2,7 @@
 
 namespace ChkltLabs\Plaid\Tests;
 
-use Capsule\Response;
+use Nimbly\Capsule\Response;
 use ChkltLabs\Plaid\PlaidRequestException;
 
 /**

@@ -3,7 +3,7 @@
 namespace ChkltLabs\Plaid\Tests;
 
 use ReflectionClass;
-use Shuttle\Shuttle;
+use Nimbly\Shuttle\Shuttle;
 use ChkltLabs\Plaid\Plaid;
 use UnexpectedValueException;
 

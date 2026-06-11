@@ -4,7 +4,7 @@ namespace ChkltLabs\Plaid;
 
 use Psr\Http\Client\ClientInterface;
 use ReflectionClass;
-use Shuttle\Shuttle;
+use Nimbly\Shuttle\Shuttle;
 use ChkltLabs\Plaid\Resources\AbstractResource;
 use UnexpectedValueException;
 
