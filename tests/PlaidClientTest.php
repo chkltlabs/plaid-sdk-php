@@ -2,9 +2,11 @@
 
 namespace ChkltLabs\Plaid\Tests;
 
-use ReflectionClass;
+use Nimbly\Capsule\Factory\RequestFactory;
+use Nimbly\Capsule\Factory\StreamFactory;
 use Nimbly\Shuttle\Shuttle;
 use ChkltLabs\Plaid\Plaid;
+use ReflectionClass;
 use UnexpectedValueException;
 
 /**
@@ -89,6 +91,40 @@ class PlaidClientTest extends TestCase
 		$method->setAccessible(true);
 
 		$this->assertInstanceOf(Shuttle::class, $method->invoke($plaid));
+	}
+
+	public function test_setting_request_factory(): void
+	{
+		$requestFactory = new RequestFactory;
+
+		$plaid = new Plaid("client_id", "secret");
+		$plaid->setRequestFactory($requestFactory);
+
+		$this->assertSame($requestFactory, $plaid->getRequestFactory());
+	}
+
+	public function test_getting_request_factory_creates_default_factory_if_none_set(): void
+	{
+		$plaid = new Plaid("client_id", "secret");
+
+		$this->assertInstanceOf(RequestFactory::class, $plaid->getRequestFactory());
+	}
+
+	public function test_setting_stream_factory(): void
+	{
+		$streamFactory = new StreamFactory;
+
+		$plaid = new Plaid("client_id", "secret");
+		$plaid->setStreamFactory($streamFactory);
+
+		$this->assertSame($streamFactory, $plaid->getStreamFactory());
+	}
+
+	public function test_getting_stream_factory_creates_default_factory_if_none_set(): void
+	{
+		$plaid = new Plaid("client_id", "secret");
+
+		$this->assertInstanceOf(StreamFactory::class, $plaid->getStreamFactory());
 	}
 
 	public function test_getting_unsupported_resource_throws_unexpected_value_exception(): void
