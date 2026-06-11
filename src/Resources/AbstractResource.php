@@ -148,10 +148,16 @@ abstract class AbstractResource
 	 */
 	protected function buildRequest(string $method, string $path, array $params = []): RequestInterface
 	{
+		$body = \json_encode((object) $params);
+
+		if( $body === false ){
+			throw new UnexpectedValueException("Failed to encode request parameters as JSON");
+		}
+
 		return $this->requestFactory
 			->createRequest($method, $this->hostname . \trim($path, "/"))
 			->withHeader("Plaid-Version", Plaid::API_VERSION)
 			->withHeader("Content-Type", "application/json")
-			->withBody($this->streamFactory->createStream(\json_encode((object) $params)));
+			->withBody($this->streamFactory->createStream($body));
 	}
 }
