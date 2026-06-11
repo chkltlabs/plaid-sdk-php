@@ -1,9 +1,8 @@
 # Plaid SDK
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/chkltlabs/plaid-sdk-php.svg?style=flat-square)](https://packagist.org/packages/chkltlabs/plaid-sdk-php)
-[![Build Status](https://img.shields.io/travis/TomorrowIdeas/plaid-sdk-php.svg?style=flat-square)](https://travis-ci.com/TomorrowIdeas/plaid-sdk-php)
-[![Code Coverage](https://img.shields.io/coveralls/github/TomorrowIdeas/plaid-sdk-php.svg?style=flat-square)](https://coveralls.io/github/TomorrowIdeas/plaid-sdk-php)
-[![License](https://img.shields.io/github/license/TomorrowIdeas/plaid-sdk-php.svg?style=flat-square)](https://packagist.org/packages/chkltlabs/plaid-sdk-php)
+[![CI](https://github.com/chkltlabs/plaid-sdk-php/actions/workflows/ci.yml/badge.svg)](https://github.com/chkltlabs/plaid-sdk-php/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/chkltlabs/plaid-sdk-php.svg?style=flat-square)](https://github.com/chkltlabs/plaid-sdk-php/blob/master/LICENSE)
 
 Plaid PHP SDK supporting:
 * Link tokens
@@ -29,7 +28,7 @@ For full description of request and response payloads and properties, please see
 
 ## Requirements
 
-* PHP 7.3+ | PHP 8.0+
+* PHP 8.2+
 * ext-curl
 * ext-json
 
@@ -38,6 +37,8 @@ For full description of request and response payloads and properties, please see
 ```bash
 composer require chkltlabs/plaid-sdk-php
 ```
+
+> **Migrating from 1.x?** The original [`tomorrow-ideas/plaid-sdk-php`](https://packagist.org/packages/tomorrow-ideas/plaid-sdk-php) package is abandoned. See [UPGRADE.md](UPGRADE.md) for the 2.0 migration guide.
 
 ## Configuration
 
@@ -49,7 +50,7 @@ $client = new \ChkltLabs\Plaid\Plaid("your-client-id", "your-secret", "environme
 
 ### Environments
 
-The Plaid client by default uses the **production** Plaid API hostname for all API calls. You can change the environment by using the `setEnvironment` method.
+The Plaid client by default uses the **production** Plaid API hostname for all API calls. Pass the environment as the third constructor argument.
 
 Possible environments:
 
@@ -66,6 +67,21 @@ $options = [
 	"foo" => "bar",
 	"baz" => "bat"
 ];
+```
+
+### Custom PSR-17 factories
+
+By default, the SDK uses Capsule PSR-17 factories to build outbound requests. You may substitute your own factories—for example, Guzzle's `HttpFactory` in a Laravel application:
+
+```php
+use ChkltLabs\Plaid\Plaid;
+use GuzzleHttp\Psr7\HttpFactory;
+
+$plaid = new Plaid($clientId, $secret, "sandbox");
+
+$httpFactory = new HttpFactory;
+$plaid->setRequestFactory($httpFactory);
+$plaid->setStreamFactory($httpFactory);
 ```
 
 ## Example
